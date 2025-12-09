@@ -5,9 +5,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 const tabs = [
   { id: "summary", label: "Summary" },
+  { id: "revenue", label: "Revenue" },
   { id: "utilization", label: "Utilization" },
   { id: "quoting", label: "Quoting" },
-  { id: "revenue", label: "Revenue" },
   { id: "performance", label: "Performance" },
 ]
 

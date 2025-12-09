@@ -15,7 +15,7 @@ import {
   ReferenceLine,
   ReferenceArea,
 } from "recharts"
-import { CheckCircle, Clock, Wrench, Search, Plane } from "lucide-react"
+import { CheckCircle, Clock, Wrench, Search, Plane, ArrowUp, ArrowDown } from "lucide-react"
 
 const performanceKpis = [
   {
@@ -40,14 +40,16 @@ const performanceKpis = [
 ]
 
 const aircraftPerformance = [
-  { tail: "N123AB", legs: 8, hours: 18.4, revenue: 52400, revPerHour: 2848, status: "optimal" },
-  { tail: "N456CD", legs: 6, hours: 14.2, revenue: 38900, revPerHour: 2739, status: "optimal" },
-  { tail: "N789EF", legs: 7, hours: 16.8, revenue: 44200, revPerHour: 2631, status: "optimal" },
-  { tail: "N321GH", legs: 5, hours: 12.1, revenue: 28400, revPerHour: 2347, status: "monitor" },
-  { tail: "N654IJ", legs: 4, hours: 9.6, revenue: 21800, revPerHour: 2271, status: "monitor" },
-  { tail: "N987KL", legs: 3, hours: 7.2, revenue: 14200, revPerHour: 1972, status: "critical" },
-  { tail: "N147MN", legs: 2, hours: 4.8, revenue: 8900, revPerHour: 1854, status: "critical" },
+  { tail: "N123AB", legs: 8, hours: 18.4, revenue: 52400, revPerHour: 2848 },
+  { tail: "N456CD", legs: 6, hours: 14.2, revenue: 38900, revPerHour: 2739 },
+  { tail: "N789EF", legs: 7, hours: 16.8, revenue: 44200, revPerHour: 2631 },
+  { tail: "N321GH", legs: 5, hours: 12.1, revenue: 28400, revPerHour: 2347 },
+  { tail: "N654IJ", legs: 4, hours: 9.6, revenue: 21800, revPerHour: 2271 },
+  { tail: "N987KL", legs: 3, hours: 7.2, revenue: 14200, revPerHour: 1972 },
+  { tail: "N147MN", legs: 2, hours: 4.8, revenue: 8900, revPerHour: 1854 },
 ]
+
+const REV_HOUR_TARGET = 2500
 
 const completionTrend = Array.from({ length: 30 }, (_, i) => ({
   day: i + 1,
@@ -55,37 +57,26 @@ const completionTrend = Array.from({ length: 30 }, (_, i) => ({
 }))
 
 export function PerformancePage() {
-  const getStatusBadge = (status: string) => {
-    switch (status) {
-      case "optimal":
-        return (
-          <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 mr-1.5 animate-pulse" />
-            Optimal
-          </Badge>
-        )
-      case "monitor":
-        return (
-          <Badge variant="outline" className="bg-amber-500/10 text-amber-400 border-amber-500/30">
-            <div className="w-2 h-2 rounded-full bg-amber-500 mr-1.5" />
-            Monitor
-          </Badge>
-        )
-      case "critical":
-        return (
-          <Badge variant="outline" className="bg-rose-500/10 text-rose-400 border-rose-500/30">
-            <div className="w-2 h-2 rounded-full bg-rose-500 mr-1.5" />
-            Critical
-          </Badge>
-        )
-      default:
-        return null
+  const getStatusBadge = (revPerHour: number) => {
+    const isAboveTarget = revPerHour >= REV_HOUR_TARGET
+    if (isAboveTarget) {
+      return (
+        <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
+          <ArrowUp className="w-3 h-3 mr-1" />
+          Above Target
+        </Badge>
+      )
     }
+    return (
+      <Badge variant="outline" className="bg-rose-500/10 text-rose-400 border-rose-500/30">
+        <ArrowDown className="w-3 h-3 mr-1" />
+        Below Target
+      </Badge>
+    )
   }
 
   return (
     <div className="space-y-6">
-      {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {performanceKpis.map((kpi) => (
           <Card
@@ -115,41 +106,20 @@ export function PerformancePage() {
                   <kpi.icon className={`h-5 w-5 ${kpi.status === "success" ? "text-emerald-400" : "text-cyan-400"}`} />
                 </div>
               </div>
-              {kpi.title === "Completion Rate" && (
-                <div className="mt-4">
-                  <div className="relative w-20 h-20 mx-auto">
-                    <svg className="w-20 h-20 -rotate-90">
-                      <circle cx="40" cy="40" r="34" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="6" />
-                      <circle
-                        cx="40"
-                        cy="40"
-                        r="34"
-                        fill="none"
-                        stroke="#34d399"
-                        strokeWidth="6"
-                        strokeLinecap="round"
-                        strokeDasharray={`${94.2 * 2.14} 214`}
-                        className="drop-shadow-[0_0_8px_rgba(52,211,153,0.5)]"
-                      />
-                    </svg>
-                    <span className="absolute inset-0 flex items-center justify-center text-lg font-bold text-emerald-400">
-                      94.2%
-                    </span>
-                  </div>
-                </div>
-              )}
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Aircraft Performance Table */}
+      {/* Aircraft Performance Table - status now shows above/below $2,500 target */}
       <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
             <div>
               <CardTitle className="text-lg font-semibold">Aircraft Performance - Prior Day</CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">Revenue efficiency by tail number</p>
+              <p className="text-sm text-muted-foreground mt-1">
+                Revenue efficiency by tail number (Target: ${REV_HOUR_TARGET.toLocaleString()}/hr)
+              </p>
             </div>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -166,7 +136,7 @@ export function PerformancePage() {
                 <TableHead className="text-muted-foreground text-right">Flight Hours</TableHead>
                 <TableHead className="text-muted-foreground text-right">Revenue</TableHead>
                 <TableHead className="text-muted-foreground text-right">Rev/Hour</TableHead>
-                <TableHead className="text-muted-foreground text-center">Status</TableHead>
+                <TableHead className="text-muted-foreground text-center">vs Target</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -174,7 +144,7 @@ export function PerformancePage() {
                 <TableRow
                   key={aircraft.tail}
                   className={`border-border/30 hover:bg-secondary/30 transition-colors ${
-                    idx < 3 ? "bg-cyan-500/5" : ""
+                    aircraft.revPerHour >= REV_HOUR_TARGET ? "bg-emerald-500/5" : ""
                   }`}
                 >
                   <TableCell>
@@ -195,9 +165,13 @@ export function PerformancePage() {
                   <TableCell className="text-right font-mono">{aircraft.hours.toFixed(1)}</TableCell>
                   <TableCell className="text-right font-mono">${aircraft.revenue.toLocaleString()}</TableCell>
                   <TableCell className="text-right">
-                    <span className="font-mono font-bold text-cyan-400">${aircraft.revPerHour.toLocaleString()}</span>
+                    <span
+                      className={`font-mono font-bold ${aircraft.revPerHour >= REV_HOUR_TARGET ? "text-emerald-400" : "text-rose-400"}`}
+                    >
+                      ${aircraft.revPerHour.toLocaleString()}
+                    </span>
                   </TableCell>
-                  <TableCell className="text-center">{getStatusBadge(aircraft.status)}</TableCell>
+                  <TableCell className="text-center">{getStatusBadge(aircraft.revPerHour)}</TableCell>
                 </TableRow>
               ))}
               {/* Totals Row */}

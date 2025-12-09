@@ -1,16 +1,13 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 
 const data = [
-  { day: "1", superMidsize: 45000, midsize: 32000 },
-  { day: "5", superMidsize: 52000, midsize: 38000 },
-  { day: "10", superMidsize: 48000, midsize: 41000 },
-  { day: "15", superMidsize: 61000, midsize: 35000 },
-  { day: "20", superMidsize: 55000, midsize: 42000 },
-  { day: "25", superMidsize: 67000, midsize: 48000 },
-  { day: "30", superMidsize: 72000, midsize: 51000 },
+  { cabin: "Super Midsize", revenue: 485000 },
+  { cabin: "Midsize", revenue: 312000 },
+  { cabin: "Light", revenue: 178000 },
+  { cabin: "Heavy", revenue: 245000 },
 ]
 
 const formatCurrency = (value: number) => {
@@ -22,35 +19,27 @@ export function RevenueByCabinChart() {
     <Card className="bg-card/50 backdrop-blur-sm border-border/50">
       <CardHeader className="pb-2">
         <CardTitle className="text-base font-semibold">Revenue by Cabin</CardTitle>
-        <p className="text-sm text-muted-foreground">Last 30 days</p>
+        <p className="text-sm text-muted-foreground">Current Period</p>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center gap-6 mb-4">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-cyan-400" />
-            <span className="text-xs text-muted-foreground">Super Midsize Jet</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-violet-400" />
-            <span className="text-xs text-muted-foreground">Midsize Jet</span>
-          </div>
-        </div>
         <div className="h-[260px]">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+            <BarChart data={data} layout="vertical" margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={true} vertical={false} />
               <XAxis
-                dataKey="day"
-                tick={{ fontSize: 11, fill: "#71717a" }}
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={(value) => `Day ${value}`}
-              />
-              <YAxis
+                type="number"
                 tickFormatter={formatCurrency}
                 tick={{ fontSize: 11, fill: "#71717a" }}
                 tickLine={false}
                 axisLine={false}
+              />
+              <YAxis
+                type="category"
+                dataKey="cabin"
+                tick={{ fontSize: 12, fill: "#a1a1aa" }}
+                tickLine={false}
+                axisLine={false}
+                width={100}
               />
               <Tooltip
                 contentStyle={{
@@ -60,28 +49,10 @@ export function RevenueByCabinChart() {
                   boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
                 }}
                 itemStyle={{ color: "#e5e5e5" }}
-                formatter={(value: number, name: string) => [
-                  `$${value.toLocaleString()}`,
-                  name === "superMidsize" ? "Super Midsize" : "Midsize",
-                ]}
+                formatter={(value: number) => [`$${value.toLocaleString()}`, "Revenue"]}
               />
-              <Line
-                type="monotone"
-                dataKey="superMidsize"
-                stroke="#22d3ee"
-                strokeWidth={2.5}
-                dot={{ fill: "#22d3ee", strokeWidth: 0, r: 4 }}
-                activeDot={{ r: 6, fill: "#22d3ee", stroke: "#22d3ee", strokeWidth: 2, strokeOpacity: 0.3 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="midsize"
-                stroke="#a78bfa"
-                strokeWidth={2.5}
-                dot={{ fill: "#a78bfa", strokeWidth: 0, r: 4 }}
-                activeDot={{ r: 6, fill: "#a78bfa", stroke: "#a78bfa", strokeWidth: 2, strokeOpacity: 0.3 }}
-              />
-            </LineChart>
+              <Bar dataKey="revenue" fill="#22d3ee" radius={[0, 4, 4, 0]} barSize={28} />
+            </BarChart>
           </ResponsiveContainer>
         </div>
       </CardContent>

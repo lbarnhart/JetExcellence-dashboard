@@ -6,7 +6,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
 import { DollarSign, FileText, Target, Clock, ArrowUpRight, ArrowDownRight } from "lucide-react"
-import { Progress } from "@/components/ui/progress"
 
 const quotingKpis = [
   {
@@ -38,17 +37,20 @@ const quotingKpis = [
 ]
 
 const salespersonData = [
-  { name: "Sarah Johnson", avatar: "SJ", quotes: 68, booked: 28, rate: 41.2, avgValue: 52400, rank: "S" },
-  { name: "Michael Chen", avatar: "MC", quotes: 54, booked: 19, rate: 35.2, avgValue: 48200, rank: "A" },
-  { name: "John Smith", avatar: "JS", quotes: 62, booked: 21, rate: 33.9, avgValue: 44800, rank: "A" },
-  { name: "Emily Davis", avatar: "ED", quotes: 48, booked: 14, rate: 29.2, avgValue: 41600, rank: "B" },
-  { name: "Robert Wilson", avatar: "RW", quotes: 52, booked: 15, rate: 28.8, avgValue: 38900, rank: "B" },
+  { name: "Sarah Johnson", avatar: "SJ", quotes: 68, booked: 28, avgValue: 52400, rank: "S" },
+  { name: "Michael Chen", avatar: "MC", quotes: 54, booked: 19, avgValue: 48200, rank: "A" },
+  { name: "John Smith", avatar: "JS", quotes: 62, booked: 21, avgValue: 44800, rank: "A" },
+  { name: "Emily Davis", avatar: "ED", quotes: 48, booked: 14, avgValue: 41600, rank: "B" },
+  { name: "Robert Wilson", avatar: "RW", quotes: 52, booked: 15, avgValue: 38900, rank: "B" },
 ]
 
 const quotesOverTime = Array.from({ length: 30 }, (_, i) => ({
   day: i + 1,
-  total: 8 + Math.floor(Math.random() * 6),
-  booked: 2 + Math.floor(Math.random() * 4),
+  sarah: Math.floor(1 + Math.random() * 4),
+  michael: Math.floor(1 + Math.random() * 3),
+  john: Math.floor(1 + Math.random() * 4),
+  emily: Math.floor(Math.random() * 3),
+  robert: Math.floor(1 + Math.random() * 3),
 }))
 
 export function QuotingPage() {
@@ -98,22 +100,16 @@ export function QuotingPage() {
                   <kpi.icon className="h-5 w-5 text-cyan-400" />
                 </div>
               </div>
-              {kpi.title === "Quote to Book" && (
-                <div className="mt-4 relative">
-                  <Progress value={34.2} className="h-2 bg-secondary" />
-                  <div className="absolute top-0 w-0.5 h-4 bg-cyan-400 -translate-y-1" style={{ left: "35%" }} />
-                </div>
-              )}
             </CardContent>
           </Card>
         ))}
       </div>
 
-      {/* Salesperson Table */}
+      {/* Salesperson Table - Removed Quote-to-Book column */}
       <Card className="bg-card/50 backdrop-blur-sm border-border/50">
         <CardHeader className="pb-4">
           <CardTitle className="text-lg font-semibold">Salesperson Performance</CardTitle>
-          <p className="text-sm text-muted-foreground mt-1">Quote conversion metrics by team member</p>
+          <p className="text-sm text-muted-foreground mt-1">Quote metrics by team member</p>
         </CardHeader>
         <CardContent>
           <Table>
@@ -122,7 +118,6 @@ export function QuotingPage() {
                 <TableHead className="text-muted-foreground">Salesperson</TableHead>
                 <TableHead className="text-muted-foreground text-right">Total Quotes</TableHead>
                 <TableHead className="text-muted-foreground text-right">Booked</TableHead>
-                <TableHead className="text-muted-foreground">Quote-to-Book</TableHead>
                 <TableHead className="text-muted-foreground text-right">Avg Value</TableHead>
                 <TableHead className="text-muted-foreground text-center">Rank</TableHead>
               </TableRow>
@@ -136,9 +131,7 @@ export function QuotingPage() {
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
-                        <AvatarImage
-                          src={`/.jpg?height=32&width=32&query=${person.name} professional headshot`}
-                        />
+                        <AvatarImage src={`/.jpg?height=32&width=32&query=${person.name} professional headshot`} />
                         <AvatarFallback className="bg-secondary text-xs">{person.avatar}</AvatarFallback>
                       </Avatar>
                       <span className="font-medium">{person.name}</span>
@@ -151,12 +144,6 @@ export function QuotingPage() {
                   </TableCell>
                   <TableCell className="text-right font-medium">{person.quotes}</TableCell>
                   <TableCell className="text-right font-medium text-emerald-400">{person.booked}</TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <Progress value={person.rate} className="h-2 w-24 bg-secondary" />
-                      <span className="text-sm font-medium w-12">{person.rate}%</span>
-                    </div>
-                  </TableCell>
                   <TableCell className="text-right font-mono">${person.avgValue.toLocaleString()}</TableCell>
                   <TableCell className="text-center">
                     <Badge variant="outline" className={`${getRankBadge(person.rank)} font-bold`}>
@@ -170,9 +157,6 @@ export function QuotingPage() {
                 <TableCell>Total / Average</TableCell>
                 <TableCell className="text-right">284</TableCell>
                 <TableCell className="text-right text-emerald-400">97</TableCell>
-                <TableCell>
-                  <span className="text-cyan-400">34.2%</span>
-                </TableCell>
                 <TableCell className="text-right font-mono">$45,180</TableCell>
                 <TableCell />
               </TableRow>
@@ -183,10 +167,9 @@ export function QuotingPage() {
 
       {/* Bottom Section */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
-        {/* Quotes Over Time Chart */}
         <Card className="bg-card/50 backdrop-blur-sm border-border/50">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-semibold">Quotes Over Time</CardTitle>
+            <CardTitle className="text-base font-semibold">Quoted Trips by Salesperson</CardTitle>
             <p className="text-sm text-muted-foreground">Last 30 days</p>
           </CardHeader>
           <CardContent>
@@ -205,15 +188,11 @@ export function QuotingPage() {
                     itemStyle={{ color: "#e5e5e5" }}
                   />
                   <Legend />
-                  <Line
-                    type="monotone"
-                    dataKey="total"
-                    name="Total Quotes"
-                    stroke="#a78bfa"
-                    strokeWidth={2}
-                    dot={false}
-                  />
-                  <Line type="monotone" dataKey="booked" name="Booked" stroke="#22d3ee" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="sarah" name="Sarah" stroke="#22d3ee" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="michael" name="Michael" stroke="#a78bfa" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="john" name="John" stroke="#34d399" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="emily" name="Emily" stroke="#fbbf24" strokeWidth={2} dot={false} />
+                  <Line type="monotone" dataKey="robert" name="Robert" stroke="#f87171" strokeWidth={2} dot={false} />
                 </LineChart>
               </ResponsiveContainer>
             </div>

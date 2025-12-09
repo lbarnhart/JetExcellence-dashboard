@@ -4,19 +4,38 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts"
 
 const data = [
-  { name: "Revenue", value: 45, color: "#22d3ee" },
-  { name: "Available", value: 25, color: "#34d399" },
-  { name: "Maintenance", value: 15, color: "#fbbf24" },
-  { name: "Repositioning", value: 10, color: "#a78bfa" },
-  { name: "AOG", value: 5, color: "#f87171" },
+  { name: "Revenue", value: 14, days: 14, color: "#22d3ee" },
+  { name: "Available", value: 8, days: 8, color: "#34d399" },
+  { name: "Maintenance", value: 5, days: 5, color: "#fbbf24" },
+  { name: "Repositioning", value: 3, days: 3, color: "#a78bfa" },
+  { name: "AOG", value: 1, days: 1, color: "#f87171" },
 ]
+
+const totalDays = data.reduce((sum, d) => sum + d.days, 0)
+
+const CustomTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    const entry = payload[0].payload
+    const percentage = ((entry.days / totalDays) * 100).toFixed(1)
+    return (
+      <div className="bg-[rgba(22,22,30,0.95)] border border-white/10 rounded-xl p-3 shadow-lg">
+        <p className="text-sm font-medium text-foreground">{entry.name}</p>
+        <p className="text-lg font-bold" style={{ color: entry.color }}>
+          {entry.days} days
+        </p>
+        <p className="text-xs text-muted-foreground">{percentage}% of month</p>
+      </div>
+    )
+  }
+  return null
+}
 
 export function FleetUtilizationChart() {
   return (
     <Card className="bg-card/50 backdrop-blur-sm border-border/50">
       <CardHeader className="pb-2">
         <CardTitle className="text-base font-semibold">Fleet Utilization</CardTitle>
-        <p className="text-sm text-muted-foreground">Citation X - Current Month</p>
+        <p className="text-sm text-muted-foreground">Citation X - Current Month ({totalDays} days)</p>
       </CardHeader>
       <CardContent>
         <div className="h-[280px] flex items-center">
@@ -36,16 +55,7 @@ export function FleetUtilizationChart() {
                   <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
               </Pie>
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "rgba(22, 22, 30, 0.95)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  borderRadius: "12px",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-                }}
-                itemStyle={{ color: "#e5e5e5" }}
-                formatter={(value: number) => [`${value}%`, ""]}
-              />
+              <Tooltip content={<CustomTooltip />} />
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -53,7 +63,9 @@ export function FleetUtilizationChart() {
           {data.map((item) => (
             <div key={item.name} className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }} />
-              <span className="text-xs text-muted-foreground">{item.name}</span>
+              <span className="text-xs text-muted-foreground">
+                {item.name} ({item.days}d)
+              </span>
             </div>
           ))}
         </div>

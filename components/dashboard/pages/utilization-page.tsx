@@ -83,11 +83,6 @@ export function UtilizationPage() {
                   <kpi.icon className={`h-5 w-5 text-${kpi.color}-400`} />
                 </div>
               </div>
-              {kpi.title === "Fleet Utilization" && (
-                <div className="mt-4">
-                  <Progress value={72.4} className="h-2 bg-secondary" />
-                </div>
-              )}
             </CardContent>
           </Card>
         ))}
