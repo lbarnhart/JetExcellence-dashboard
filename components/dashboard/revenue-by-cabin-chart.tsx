@@ -31,7 +31,7 @@ export function RevenueByCabinChart() {
             <span className="text-xs text-muted-foreground">Super Midsize Jet</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-emerald-400" />
+            <div className="w-3 h-3 rounded-full bg-violet-400" />
             <span className="text-xs text-muted-foreground">Midsize Jet</span>
           </div>
         </div>
@@ -76,10 +76,10 @@ export function RevenueByCabinChart() {
               <Line
                 type="monotone"
                 dataKey="midsize"
-                stroke="#34d399"
+                stroke="#a78bfa"
                 strokeWidth={2.5}
-                dot={{ fill: "#34d399", strokeWidth: 0, r: 4 }}
-                activeDot={{ r: 6, fill: "#34d399", stroke: "#34d399", strokeWidth: 2, strokeOpacity: 0.3 }}
+                dot={{ fill: "#a78bfa", strokeWidth: 0, r: 4 }}
+                activeDot={{ r: 6, fill: "#a78bfa", stroke: "#a78bfa", strokeWidth: 2, strokeOpacity: 0.3 }}
               />
             </LineChart>
           </ResponsiveContainer>

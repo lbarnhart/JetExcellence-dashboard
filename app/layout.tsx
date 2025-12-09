@@ -1,14 +1,14 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter, Geist_Mono } from "next/font/google"
+import { Inter, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
 const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const _jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" })
 
 export const metadata: Metadata = {
-  title: "Executive Dashboard",
+  title: "BellAir Executive Dashboard",
   description: "Aviation business metrics and KPI overview",
   generator: "v0.app",
   icons: {
@@ -37,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased ${_inter.variable}`}>
+      <body className={`font-sans antialiased ${_inter.variable} ${_jetbrainsMono.variable}`}>
         {children}
         <Analytics />
       </body>
