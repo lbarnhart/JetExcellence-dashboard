@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, LabelList } from "recharts"
 
 const data = [
   { cabin: "Super Midsize", revenue: 485000 },
@@ -24,7 +24,7 @@ export function RevenueByCabinChart() {
       <CardContent>
         <div className="h-[260px]">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} layout="vertical" margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+            <BarChart data={data} layout="vertical" margin={{ top: 10, right: 60, left: 10, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={true} vertical={false} />
               <XAxis
                 type="number"
@@ -41,17 +41,14 @@ export function RevenueByCabinChart() {
                 axisLine={false}
                 width={100}
               />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: "rgba(22, 22, 30, 0.95)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                  borderRadius: "12px",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
-                }}
-                itemStyle={{ color: "#e5e5e5" }}
-                formatter={(value: number) => [`$${value.toLocaleString()}`, "Revenue"]}
-              />
-              <Bar dataKey="revenue" fill="#22d3ee" radius={[0, 4, 4, 0]} barSize={28} />
+              <Bar dataKey="revenue" fill="#22d3ee" radius={[0, 4, 4, 0]} barSize={28}>
+                <LabelList
+                  dataKey="revenue"
+                  position="right"
+                  formatter={((value: number) => formatCurrency(value)) as any}
+                  style={{ fill: "#e5e5e5", fontSize: 12, fontWeight: 500 }}
+                />
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
