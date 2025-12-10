@@ -1,16 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { Percent, CheckCircle, Radio } from "lucide-react"
+import { CheckCircle, DollarSign, Fuel } from "lucide-react"
 
 const secondaryKpis = [
-  {
-    title: "Yield",
-    value: "78.4%",
-    subtitle: "Last 7 days",
-    icon: Percent,
-    color: "text-cyan-400",
-    bg: "bg-cyan-500/20",
-    ring: "ring-cyan-500/30",
-  },
   {
     title: "Completion Rate",
     value: "94.2%",
@@ -22,18 +13,36 @@ const secondaryKpis = [
   },
   {
     title: "Live Rate",
-    value: "86.7%",
-    subtitle: "Last 7 days",
-    icon: Radio,
+    value: "$4,285",
+    subtitle: "Includes GRP",
+    icon: DollarSign,
     color: "text-amber-400",
     bg: "bg-amber-500/20",
     ring: "ring-amber-500/30",
+  },
+  {
+    title: "Avg Fuel Cost / Gallon",
+    value: "$5.42",
+    subtitle: "Last 30 days",
+    icon: Fuel,
+    color: "text-cyan-400",
+    bg: "bg-cyan-500/20",
+    ring: "ring-cyan-500/30",
+  },
+  {
+    title: "Fuel Cost / Hour",
+    value: "$892",
+    subtitle: "Last 30 days",
+    icon: Fuel,
+    color: "text-violet-400",
+    bg: "bg-violet-500/20",
+    ring: "ring-violet-500/30",
   },
 ]
 
 export function SecondaryKPIs() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {secondaryKpis.map((kpi) => (
         <Card
           key={kpi.title}
@@ -56,3 +65,5 @@ export function SecondaryKPIs() {
     </div>
   )
 }
+
+

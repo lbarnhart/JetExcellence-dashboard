@@ -3,7 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
-import { DollarSign, TrendingUp, TrendingDown, Calendar, Users, Repeat } from "lucide-react"
+import { DollarSign, TrendingUp, TrendingDown, Calendar, Users, Fuel } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
 
 const weeklyData = [
@@ -40,13 +40,26 @@ export function RevenuePage() {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Total YTD Revenue - removed count-up animation, fixed icon sizing */}
+        {/* MTD Revenue with MoM Change */}
         <Card className="relative overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 hover:border-cyan-500/50 transition-all duration-300 group hover:glow-cyan">
           <CardContent className="p-5">
             <div className="flex items-start justify-between">
               <div className="space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">Total YTD Revenue</p>
-                <p className="text-4xl font-bold tracking-tight text-cyan-400">$12,800,000</p>
+                <p className="text-sm font-medium text-muted-foreground">MTD Revenue</p>
+                <p className="text-4xl font-bold tracking-tight text-cyan-400">$728,000</p>
+                <div className="flex items-center gap-2">
+                  <span className={`inline-flex items-center gap-1 text-sm font-medium ${momChange >= 0 ? "text-emerald-400" : "text-rose-400"}`}>
+                    {momChange >= 0 ? <TrendingUp className="h-3.5 w-3.5" /> : <TrendingDown className="h-3.5 w-3.5" />}
+                    {momChange >= 0 ? "+" : ""}{momChange}% MoM
+                  </span>
+                </div>
+                <div className="space-y-1 pt-1">
+                  <div className="flex justify-between text-xs text-muted-foreground">
+                    <span>{mtdProgress}% of month</span>
+                    <span>Target: $1.07M</span>
+                  </div>
+                  <Progress value={mtdProgress} className="h-1.5 bg-secondary" />
+                </div>
               </div>
               <div className="rounded-xl p-2.5 bg-cyan-500/20 shrink-0">
                 <DollarSign className="h-5 w-5 text-cyan-400" />
@@ -55,25 +68,16 @@ export function RevenuePage() {
           </CardContent>
         </Card>
 
-        {/* MoM Change */}
+        {/* Total YTD Revenue */}
         <Card className="relative overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 hover:border-border transition-all duration-300 group">
           <CardContent className="p-5">
             <div className="flex items-start justify-between">
               <div className="space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">MoM Change</p>
-                <p
-                  className={`text-4xl font-bold tracking-tight ${momChange >= 0 ? "text-emerald-400" : "text-rose-400"}`}
-                >
-                  {momChange >= 0 ? "+" : ""}
-                  {momChange}%
-                </p>
+                <p className="text-sm font-medium text-muted-foreground">Total YTD Revenue</p>
+                <p className="text-3xl font-bold tracking-tight text-foreground">$12,800,000</p>
               </div>
-              <div className={`rounded-xl p-2.5 shrink-0 ${momChange >= 0 ? "bg-emerald-500/20" : "bg-rose-500/20"}`}>
-                {momChange >= 0 ? (
-                  <TrendingUp className="h-5 w-5 text-emerald-400" />
-                ) : (
-                  <TrendingDown className="h-5 w-5 text-rose-400" />
-                )}
+              <div className="rounded-xl p-2.5 bg-emerald-500/20 shrink-0">
+                <DollarSign className="h-5 w-5 text-emerald-400" />
               </div>
             </div>
           </CardContent>
@@ -86,6 +90,7 @@ export function RevenuePage() {
               <div className="space-y-2">
                 <p className="text-sm font-medium text-muted-foreground">Revenue per Employee</p>
                 <p className="text-3xl font-bold tracking-tight text-foreground">$284,444</p>
+                <p className="text-xs text-muted-foreground">TTM Run Rate / Avg Headcount</p>
               </div>
               <div className="rounded-xl p-2.5 bg-cyan-500/20 shrink-0">
                 <Users className="h-5 w-5 text-cyan-400" />
@@ -132,42 +137,41 @@ export function RevenuePage() {
           </CardContent>
         </Card>
 
-        {/* MTD Revenue - show full number */}
+        {/* Fuel as % of Revenue */}
         <Card className="relative overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 hover:border-border transition-all duration-300 group">
           <CardContent className="p-5">
-            <div className="space-y-3">
-              <p className="text-sm font-medium text-muted-foreground">MTD Revenue</p>
-              <p className="text-3xl font-bold tracking-tight text-foreground">$728,000</p>
-              <div className="space-y-1">
-                <div className="flex justify-between text-xs text-muted-foreground">
-                  <span>{mtdProgress}% of month</span>
-                  <span>Target: $1,066,667</span>
+            <div className="flex items-start justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-medium text-muted-foreground">Fuel % of Revenue</p>
+                  <Badge variant="outline" className="text-[10px] bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
+                    ≤30% Target
+                  </Badge>
                 </div>
-                <Progress value={mtdProgress} className="h-2 bg-secondary" />
+                <p className="text-3xl font-bold tracking-tight text-emerald-400">11.9%</p>
+                <p className="text-xs text-muted-foreground">$100K / $842K</p>
+              </div>
+              <div className="rounded-xl p-2.5 bg-emerald-500/20 shrink-0">
+                <Fuel className="h-5 w-5 text-emerald-400" />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        {/* Repeat Customers */}
-        <Card className="bg-card/50 backdrop-blur-sm border-border/50 p-5">
-          <div className="flex items-center gap-4">
-            <div className="rounded-xl p-2.5 bg-emerald-500/20 shrink-0">
-              <Repeat className="h-5 w-5 text-emerald-400" />
-            </div>
-            <div>
-              <p className="text-sm text-muted-foreground">Repeat Customers</p>
-              <div className="flex items-center gap-2 mt-1">
-                <p className="text-xl font-bold text-foreground">142</p>
-                <Badge
-                  variant="outline"
-                  className="text-[10px] bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
-                >
-                  78% LTM
-                </Badge>
+        {/* Cost per Flight Hour */}
+        <Card className="relative overflow-hidden bg-card/50 backdrop-blur-sm border-border/50 hover:border-border transition-all duration-300 group">
+          <CardContent className="p-5">
+            <div className="flex items-start justify-between">
+              <div className="space-y-2">
+                <p className="text-sm font-medium text-muted-foreground">Cost per Flight Hour</p>
+                <p className="text-3xl font-bold tracking-tight text-foreground">$1,842</p>
+                <p className="text-xs text-muted-foreground">All-in operating cost</p>
+              </div>
+              <div className="rounded-xl p-2.5 bg-amber-500/20 shrink-0">
+                <DollarSign className="h-5 w-5 text-amber-400" />
               </div>
             </div>
-          </div>
+          </CardContent>
         </Card>
       </div>
 
@@ -286,6 +290,6 @@ export function RevenuePage() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </div >
   )
 }

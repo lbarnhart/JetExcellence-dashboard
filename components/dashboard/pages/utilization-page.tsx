@@ -55,6 +55,14 @@ const trendData = Array.from({ length: 30 }, (_, i) => ({
   hours: 45 + Math.random() * 30 + Math.sin(i / 3) * 15,
 }))
 
+const utilityByTailData = [
+  { tail: "N123JE", owner: 45, otherFlight: 28, idleHome: 12, idleAway: 5, maintenance: 8, other: 2, total: 100 },
+  { tail: "N456JE", owner: 38, otherFlight: 35, idleHome: 10, idleAway: 8, maintenance: 6, other: 3, total: 100 },
+  { tail: "N789JE", owner: 52, otherFlight: 22, idleHome: 8, idleAway: 6, maintenance: 10, other: 2, total: 100 },
+  { tail: "N101JE", owner: 40, otherFlight: 30, idleHome: 15, idleAway: 5, maintenance: 7, other: 3, total: 100 },
+  { tail: "N202JE", owner: 35, otherFlight: 40, idleHome: 8, idleAway: 7, maintenance: 8, other: 2, total: 100 },
+]
+
 export function UtilizationPage() {
   return (
     <div className="space-y-6">
@@ -122,13 +130,12 @@ export function UtilizationPage() {
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <div
-                        className={`w-2 h-2 rounded-full ${
-                          aircraft.status === "active"
-                            ? "bg-emerald-500"
-                            : aircraft.status === "idle"
-                              ? "bg-amber-500"
-                              : "bg-rose-500"
-                        }`}
+                        className={`w-2 h-2 rounded-full ${aircraft.status === "active"
+                          ? "bg-emerald-500"
+                          : aircraft.status === "idle"
+                            ? "bg-amber-500"
+                            : "bg-rose-500"
+                          }`}
                       />
                       <span className="font-mono text-cyan-400">{aircraft.tail}</span>
                     </div>
@@ -207,6 +214,44 @@ export function UtilizationPage() {
           </Card>
         </div>
       </div>
+
+      {/* Utility by Tail Table */}
+      <Card className="bg-card/50 backdrop-blur-sm border-border/50">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-base font-semibold">Utility by Tail</CardTitle>
+          <p className="text-sm text-muted-foreground">Percentage breakdown by aircraft usage type</p>
+        </CardHeader>
+        <CardContent className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-border/50 hover:bg-transparent">
+                <TableHead className="text-muted-foreground">Tail</TableHead>
+                <TableHead className="text-muted-foreground text-right">Owner</TableHead>
+                <TableHead className="text-muted-foreground text-right">Other Flight</TableHead>
+                <TableHead className="text-muted-foreground text-right">Idle / Home</TableHead>
+                <TableHead className="text-muted-foreground text-right">Idle / Away</TableHead>
+                <TableHead className="text-muted-foreground text-right">Maintenance</TableHead>
+                <TableHead className="text-muted-foreground text-right">Other</TableHead>
+                <TableHead className="text-muted-foreground text-right">Total</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {utilityByTailData.map((row) => (
+                <TableRow key={row.tail} className="border-border/30 hover:bg-secondary/30">
+                  <TableCell className="font-medium font-mono">{row.tail}</TableCell>
+                  <TableCell className="text-right">{row.owner}%</TableCell>
+                  <TableCell className="text-right text-cyan-400">{row.otherFlight}%</TableCell>
+                  <TableCell className="text-right">{row.idleHome}%</TableCell>
+                  <TableCell className="text-right">{row.idleAway}%</TableCell>
+                  <TableCell className="text-right text-amber-400">{row.maintenance}%</TableCell>
+                  <TableCell className="text-right">{row.other}%</TableCell>
+                  <TableCell className="text-right font-medium">{row.total}%</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
     </div>
   )
 }

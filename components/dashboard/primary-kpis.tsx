@@ -1,7 +1,18 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { DollarSign, FileText, TrendingUp, Plane, ArrowUpRight, ArrowDownRight } from "lucide-react"
+import { DollarSign, Plane, Gauge, ArrowUpRight, ArrowDownRight } from "lucide-react"
 
 const primaryKpis = [
+  {
+    title: "Weekly Revenue",
+    value: "$842K",
+    change: "+8.3%",
+    changeType: "positive" as const,
+    subtitle: "Last 7 Days",
+    icon: DollarSign,
+    gradient: "from-emerald-500/20 to-emerald-500/5",
+    iconBg: "bg-emerald-500/20",
+    iconColor: "text-emerald-400",
+  },
   {
     title: "YTD Revenue",
     value: "$12.8M",
@@ -14,37 +25,26 @@ const primaryKpis = [
     iconColor: "text-cyan-400",
   },
   {
-    title: "Quotes",
-    value: "284",
-    change: "+8.2%",
-    changeType: "positive" as const,
-    subtitle: "Last 30 days",
-    icon: FileText,
-    gradient: "from-emerald-500/20 to-emerald-500/5",
-    iconBg: "bg-emerald-500/20",
-    iconColor: "text-emerald-400",
-  },
-  {
-    title: "Avg Quote Value",
-    value: "$45.2K",
-    change: "-2.1%",
-    changeType: "negative" as const,
-    subtitle: "vs. Last Month",
-    icon: TrendingUp,
-    gradient: "from-amber-500/20 to-amber-500/5",
-    iconBg: "bg-amber-500/20",
-    iconColor: "text-amber-400",
-  },
-  {
-    title: "Flight Hours",
+    title: "Total Flight Hours",
     value: "1,842",
     change: "+15.3%",
     changeType: "positive" as const,
-    subtitle: "Current Month",
+    subtitle: "Year to Date",
     icon: Plane,
     gradient: "from-violet-500/20 to-violet-500/5",
     iconBg: "bg-violet-500/20",
     iconColor: "text-violet-400",
+  },
+  {
+    title: "Fleet Utilization",
+    value: "78.4%",
+    change: "+4.2%",
+    changeType: "positive" as const,
+    subtitle: "Current Month",
+    icon: Gauge,
+    gradient: "from-amber-500/20 to-amber-500/5",
+    iconBg: "bg-amber-500/20",
+    iconColor: "text-amber-400",
   },
 ]
 
@@ -64,11 +64,10 @@ export function PrimaryKPIs() {
                 <p className="text-3xl font-bold tracking-tight text-foreground">{kpi.value}</p>
                 <div className="flex items-center gap-2">
                   <span
-                    className={`inline-flex items-center gap-1 text-sm font-medium px-2 py-0.5 rounded-full ${
-                      kpi.changeType === "positive"
+                    className={`inline-flex items-center gap-1 text-sm font-medium px-2 py-0.5 rounded-full ${kpi.changeType === "positive"
                         ? "text-emerald-400 bg-emerald-500/10"
                         : "text-rose-400 bg-rose-500/10"
-                    }`}
+                      }`}
                   >
                     {kpi.changeType === "positive" ? (
                       <ArrowUpRight className="h-3.5 w-3.5" />
@@ -90,3 +89,4 @@ export function PrimaryKPIs() {
     </div>
   )
 }
+

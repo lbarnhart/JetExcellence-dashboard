@@ -6,6 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts"
 import { DollarSign, FileText, Target, Clock, ArrowUpRight, ArrowDownRight } from "lucide-react"
+import { TopCustomersTable } from "@/components/dashboard/top-customers-table"
+import { RevenueByCabinChart } from "@/components/dashboard/revenue-by-cabin-chart"
 
 const quotingKpis = [
   {
@@ -235,6 +237,12 @@ export function QuotingPage() {
             </div>
           </Card>
         </div>
+      </div>
+
+      {/* Customer and Revenue Analysis */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <TopCustomersTable />
+        <RevenueByCabinChart />
       </div>
     </div>
   )

@@ -6,9 +6,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 const tabs = [
   { id: "summary", label: "Summary" },
   { id: "revenue", label: "Revenue" },
+  { id: "commercial", label: "Commercial" },
   { id: "utilization", label: "Utilization" },
-  { id: "quoting", label: "Quoting" },
-  { id: "performance", label: "Performance" },
+  { id: "fleet-analytics", label: "Fleet Analytics" },
+  { id: "personnel", label: "Personnel" },
 ]
 
 interface DashboardNavProps {
@@ -37,11 +38,10 @@ export function DashboardNav({ activeTab, setActiveTab }: DashboardNavProps) {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                activeTab === tab.id
-                  ? "bg-cyan-500/20 text-cyan-400 shadow-lg shadow-cyan-500/10"
-                  : "text-muted-foreground hover:text-foreground hover:bg-secondary/80"
-              }`}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${activeTab === tab.id
+                ? "bg-cyan-500/20 text-cyan-400 shadow-lg shadow-cyan-500/10"
+                : "text-muted-foreground hover:text-foreground hover:bg-secondary/80"
+                }`}
             >
               {tab.label}
             </button>

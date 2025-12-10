@@ -5,9 +5,10 @@ import { DashboardNav } from "@/components/dashboard/dashboard-nav"
 import { DashboardFilters } from "@/components/dashboard/dashboard-filters"
 import { SummaryPage } from "@/components/dashboard/pages/summary-page"
 import { UtilizationPage } from "@/components/dashboard/pages/utilization-page"
-import { QuotingPage } from "@/components/dashboard/pages/quoting-page"
+import { CommercialPage } from "@/components/dashboard/pages/commercial-page"
 import { RevenuePage } from "@/components/dashboard/pages/revenue-page"
 import { PerformancePage } from "@/components/dashboard/pages/performance-page"
+import { PersonnelPage } from "@/components/dashboard/pages/personnel-page"
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState("summary")
@@ -25,12 +26,14 @@ export default function DashboardPage() {
 
           {/* Page Content */}
           {activeTab === "summary" && <SummaryPage />}
-          {activeTab === "utilization" && <UtilizationPage />}
-          {activeTab === "quoting" && <QuotingPage />}
           {activeTab === "revenue" && <RevenuePage />}
-          {activeTab === "performance" && <PerformancePage />}
+          {activeTab === "commercial" && <CommercialPage />}
+          {activeTab === "utilization" && <UtilizationPage />}
+          {activeTab === "fleet-analytics" && <PerformancePage />}
+          {activeTab === "personnel" && <PersonnelPage />}
         </div>
       </div>
     </div>
   )
 }
+
