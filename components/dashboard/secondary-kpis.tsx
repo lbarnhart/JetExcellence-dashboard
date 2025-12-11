@@ -1,7 +1,34 @@
 import { Card, CardContent } from "@/components/ui/card"
-import { CheckCircle, DollarSign, Fuel } from "lucide-react"
+import { Plane, Gauge, CheckCircle, DollarSign, TrendingUp, Users } from "lucide-react"
 
-const secondaryKpis = [
+const operationalKpis = [
+  {
+    title: "Total Flight Hours",
+    value: "1,842",
+    subtitle: "Year to Date",
+    icon: Plane,
+    color: "text-violet-400",
+    bg: "bg-violet-500/20",
+    ring: "ring-violet-500/30",
+  },
+  {
+    title: "Live Flight Hours",
+    value: "1,592",
+    subtitle: "YTD (Excludes Repo)",
+    icon: Plane,
+    color: "text-cyan-400",
+    bg: "bg-cyan-500/20",
+    ring: "ring-cyan-500/30",
+  },
+  {
+    title: "Fleet Efficiency",
+    value: "78.4%",
+    subtitle: "Current Month",
+    icon: Gauge,
+    color: "text-amber-400",
+    bg: "bg-amber-500/20",
+    ring: "ring-amber-500/30",
+  },
   {
     title: "Completion Rate",
     value: "94.2%",
@@ -12,38 +39,48 @@ const secondaryKpis = [
     ring: "ring-emerald-500/30",
   },
   {
-    title: "Live Rate",
+    title: "Live Rate (w/o GRP)",
     value: "$4,285",
-    subtitle: "Includes GRP",
+    subtitle: "Per Flight Hour",
     icon: DollarSign,
-    color: "text-amber-400",
-    bg: "bg-amber-500/20",
-    ring: "ring-amber-500/30",
-  },
-  {
-    title: "Avg Fuel Cost / Gallon",
-    value: "$5.42",
-    subtitle: "Last 30 days",
-    icon: Fuel,
     color: "text-cyan-400",
     bg: "bg-cyan-500/20",
     ring: "ring-cyan-500/30",
   },
   {
-    title: "Fuel Cost / Hour",
-    value: "$892",
-    subtitle: "Last 30 days",
-    icon: Fuel,
+    title: "Yield",
+    value: "82.3%",
+    subtitle: "Revenue Efficiency",
+    icon: TrendingUp,
+    color: "text-emerald-400",
+    bg: "bg-emerald-500/20",
+    ring: "ring-emerald-500/30",
+  },
+  {
+    title: "Rev per Flight Hour",
+    value: "$6,950",
+    subtitle: "Avg. YTD",
+    icon: DollarSign,
     color: "text-violet-400",
     bg: "bg-violet-500/20",
     ring: "ring-violet-500/30",
+  },
+  {
+    title: "Active Customers",
+    value: "127",
+    change: "+8",
+    subtitle: "vs. Last Month",
+    icon: Users,
+    color: "text-amber-400",
+    bg: "bg-amber-500/20",
+    ring: "ring-amber-500/30",
   },
 ]
 
 export function SecondaryKPIs() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      {secondaryKpis.map((kpi) => (
+      {operationalKpis.map((kpi) => (
         <Card
           key={kpi.title}
           className="bg-card/50 backdrop-blur-sm border-border/50 hover:border-border transition-all duration-300"
