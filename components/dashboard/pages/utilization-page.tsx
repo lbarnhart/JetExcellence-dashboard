@@ -4,52 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
-import {
-  Gauge,
-  Clock,
-  Plane,
-  DollarSign,
-  Search,
-  TrendingUp,
-  Target,
-  Activity,
-  BarChart3,
-  Calendar,
-} from "lucide-react"
-
-const revenueKpis = [
-  {
-    title: "Weekly Revenue",
-    value: "$284,500",
-    change: "+8.2%",
-    positive: true,
-    icon: DollarSign,
-    color: "emerald",
-  },
-  {
-    title: "MTD Revenue",
-    value: "$1,847,200",
-    change: "+15.3%",
-    positive: true,
-    icon: Calendar,
-    color: "emerald",
-  },
-  {
-    title: "YTD Revenue",
-    value: "$12,847,200",
-    change: "+12.4%",
-    positive: true,
-    icon: TrendingUp,
-    color: "emerald",
-  },
-]
+import { Gauge, Clock, Plane, Search, Target, Activity, BarChart3 } from "lucide-react"
 
 const otherKpis = [
   // Row 1 - Flight hours & efficiency group + live rates
   {
     title: "Live Flight Hours",
     value: "1,586",
-    subtitle: "revenue generating",
     icon: Activity,
     color: "violet",
   },
@@ -135,32 +96,6 @@ const utilityByTailData = [
 export function UtilizationPage() {
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {revenueKpis.map((kpi) => (
-          <Card
-            key={kpi.title}
-            className="relative overflow-hidden bg-emerald-500/10 backdrop-blur-sm border-emerald-500/30 hover:border-emerald-500/50 transition-all duration-300 group"
-          >
-            <CardContent className="p-5">
-              <div className="flex items-start justify-between">
-                <div className="space-y-1">
-                  <p className="text-xs font-medium text-muted-foreground">{kpi.title}</p>
-                  <p className="text-2xl font-bold tracking-tight text-foreground">{kpi.value}</p>
-                  {kpi.change && (
-                    <span className={`text-xs font-medium ${kpi.positive ? "text-emerald-400" : "text-rose-400"}`}>
-                      {kpi.change}
-                    </span>
-                  )}
-                </div>
-                <div className="rounded-lg p-2.5 bg-emerald-500/20 group-hover:scale-110 transition-transform duration-300">
-                  <kpi.icon className="h-5 w-5 text-emerald-400" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {otherKpis.map((kpi) => (
           <Card
@@ -208,7 +143,7 @@ export function UtilizationPage() {
                 <TableHead className="text-muted-foreground text-right">Total Legs</TableHead>
                 <TableHead className="text-muted-foreground text-right">Total Flight Hours</TableHead>
                 <TableHead className="text-muted-foreground text-right">Live Flight Hours</TableHead>
-                <TableHead className="text-muted-foreground text-right">Utilization</TableHead>
+                <TableHead className="text-muted-foreground text-right">Efficiency</TableHead>
                 <TableHead className="text-muted-foreground">Last Flight</TableHead>
               </TableRow>
             </TableHeader>
@@ -226,45 +161,6 @@ export function UtilizationPage() {
                   <TableCell className="text-right font-mono">{aircraft.liveHours.toFixed(1)}</TableCell>
                   <TableCell className="text-right font-medium">{aircraft.utilization}%</TableCell>
                   <TableCell className="text-muted-foreground">{aircraft.lastFlight}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
-
-      <Card className="bg-card/50 backdrop-blur-sm border-border/50">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-base font-semibold">Utility by Tail</CardTitle>
-          <p className="text-sm text-muted-foreground">Percentage breakdown by aircraft usage type</p>
-        </CardHeader>
-        <CardContent className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="border-border/50 hover:bg-transparent">
-                <TableHead className="text-muted-foreground">Tail</TableHead>
-                <TableHead className="text-muted-foreground text-right">Owner</TableHead>
-                <TableHead className="text-muted-foreground text-right">Other Flight</TableHead>
-                <TableHead className="text-muted-foreground text-right">Idle / Home</TableHead>
-                <TableHead className="text-muted-foreground text-right">Idle / Away</TableHead>
-                <TableHead className="text-muted-foreground text-right">Maintenance</TableHead>
-                <TableHead className="text-muted-foreground text-right">Other</TableHead>
-                <TableHead className="text-muted-foreground text-right">Total</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {utilityByTailData.map((row) => (
-                <TableRow key={row.tail} className="border-border/30 hover:bg-secondary/30">
-                  <TableCell className="font-medium font-mono">{row.tail}</TableCell>
-                  <TableCell className="text-right">{row.owner}%</TableCell>
-                  <TableCell className="text-right">{row.otherFlight}%</TableCell>
-                  <TableCell className={`text-right ${row.idleHome > 0 ? "text-rose-400" : ""}`}>
-                    {row.idleHome}%
-                  </TableCell>
-                  <TableCell className="text-right">{row.idleAway}%</TableCell>
-                  <TableCell className="text-right">{row.maintenance}%</TableCell>
-                  <TableCell className="text-right">{row.other}%</TableCell>
-                  <TableCell className="text-right font-medium">{row.total}%</TableCell>
                 </TableRow>
               ))}
             </TableBody>

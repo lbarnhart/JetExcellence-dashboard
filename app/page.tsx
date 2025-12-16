@@ -22,7 +22,7 @@ export default function DashboardPage() {
       <div className="pt-16">
         <div className="mx-auto max-w-[1800px] p-6 lg:p-8 space-y-6">
           {/* Filters */}
-          <DashboardFilters activeTab={activeTab} />
+          {activeTab !== "summary" && <DashboardFilters activeTab={activeTab} />}
 
           {/* Page Content */}
           {activeTab === "summary" && <SummaryPage />}

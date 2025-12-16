@@ -2,7 +2,7 @@
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Filter, Calendar } from "lucide-react"
-import { useDateRange, DatePreset } from "@/lib/date-context"
+import { useDateRange, type DatePreset } from "@/lib/date-context"
 
 interface DashboardFiltersProps {
   activeTab: string
@@ -68,12 +68,10 @@ function FilterSelect({
   )
 }
 
-
-
 const companyOptions = [
-  { value: "all", label: "All Companies" },
+  { value: "all", label: "All Entities" },
   { value: "bellair", label: "BellAir" },
-  { value: "redwing", label: "RedWing Aviation" },
+  { value: "jetexcellence", label: "Jet Excellence" },
 ]
 
 const customerOptions = [
